@@ -540,9 +540,9 @@
 
   //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   //from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-  #define DEFAULT_bedKp 290.30
-  #define DEFAULT_bedKi 38.94
-  #define DEFAULT_bedKd 541.01
+  #define DEFAULT_bedKp 170.74
+  #define DEFAULT_bedKi  33.08
+  #define DEFAULT_bedKd 587.44
 
   //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   //from pidautotune
@@ -1002,7 +1002,7 @@
  *
  * Specify a Probe position as { X, Y, Z }
  */
-#define NOZZLE_TO_PROBE_OFFSET { 0, 55, -1.02 }
+#define NOZZLE_TO_PROBE_OFFSET { 0, 55, -1.18 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
