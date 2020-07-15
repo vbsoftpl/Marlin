@@ -64,17 +64,13 @@
 
 #include <string.h>
 
-#if ENABLED(LCD_USE_DMA_FSMC)
+#ifdef LCD_USE_DMA_FSMC
   extern void LCD_IO_WriteReg(uint16_t Reg);
   extern void LCD_IO_WriteData(uint16_t RegValue);
   extern void LCD_IO_WriteSequence(uint16_t *data, uint16_t length);
   extern void LCD_IO_WriteSequence_Async(uint16_t *data, uint16_t length);
   extern void LCD_IO_WaitSequence_Async();
   extern void LCD_IO_WriteMultiple(uint16_t color, uint32_t count);
-#endif
-
-#ifndef FSMC_UPSCALE
-  #define FSMC_UPSCALE 2
 #endif
 
 #define WIDTH LCD_PIXEL_WIDTH
