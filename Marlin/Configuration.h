@@ -2070,7 +2070,7 @@
 // A clone of the RepRapDiscount full graphics display but with
 // different pins/wiring (see pins_ANET_10.h).
 //
-#define ANET_FULL_GRAPHICS_LCD
+//#define ANET_FULL_GRAPHICS_LCD
 
 //
 // AZSMZ 12864 LCD with SD
