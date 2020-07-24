@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 #pragma once
@@ -2131,8 +2131,13 @@ static_assert(hbm[Z_AXIS] >= 0, "HOMING_BUMP_MM.Z must be greater than or equal 
  */
 #if ENABLED(EEPROM_SETTINGS)
   #if 1 < 0 \
-    + ENABLED(I2C_EEPROM) + ENABLED(SPI_EEPROM) + ENABLED(QSPI_EEPROM) \
-    + ENABLED(SDCARD_EEPROM_EMULATION) + ENABLED(FLASH_EEPROM_EMULATION) + ENABLED(SRAM_EEPROM_EMULATION)
+    + ENABLED(I2C_EEPROM) \
+    + ENABLED(SPI_EEPROM) \
+    + ENABLED(QSPI_EEPROM) \
+    + ENABLED(SDCARD_EEPROM_EMULATION) \
+    + ENABLED(FLASH_EEPROM_EMULATION) \
+    + ENABLED(SRAM_EEPROM_EMULATION) \
+    + ENABLED(IIC_BL24CXX_EEPROM)
     #error "Please select only one method of EEPROM Persistent Storage."
   #endif
 #endif
