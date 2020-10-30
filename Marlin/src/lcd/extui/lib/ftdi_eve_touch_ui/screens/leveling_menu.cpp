@@ -38,8 +38,8 @@ using namespace Theme;
   #define GRID_ROWS 9
   #define GRID_COLS 2
   #define TITLE_POS          BTN_POS(1,1), BTN_SIZE(2,1)
-  #define LEVEL_BED_POS      BTN_POS(1,2), BTN_SIZE(2,1)
-  #define LEVEL_AXIS_POS     BTN_POS(1,3), BTN_SIZE(2,1)
+  #define LEVEL_AXIS_POS     BTN_POS(1,2), BTN_SIZE(2,1)
+  #define LEVEL_BED_POS      BTN_POS(1,3), BTN_SIZE(2,1)
   #define SHOW_MESH_POS      BTN_POS(1,4), BTN_SIZE(2,1)
   #define BLTOUCH_TITLE_POS  BTN_POS(1,6), BTN_SIZE(2,1)
   #define BLTOUCH_RESET_POS  BTN_POS(1,7), BTN_SIZE(1,1)
@@ -49,8 +49,8 @@ using namespace Theme;
   #define GRID_ROWS 7
   #define GRID_COLS 2
   #define TITLE_POS          BTN_POS(1,1), BTN_SIZE(2,1)
-  #define LEVEL_BED_POS      BTN_POS(1,2), BTN_SIZE(2,1)
-  #define LEVEL_AXIS_POS     BTN_POS(1,3), BTN_SIZE(2,1)
+  #define LEVEL_AXIS_POS     BTN_POS(1,2), BTN_SIZE(2,1)
+  #define LEVEL_BED_POS      BTN_POS(1,3), BTN_SIZE(2,1)
   #define SHOW_MESH_POS      BTN_POS(1,4), BTN_SIZE(2,1)
   #define BLTOUCH_TITLE_POS  BTN_POS(1,5), BTN_SIZE(2,1)
   #define BLTOUCH_RESET_POS  BTN_POS(1,6), BTN_SIZE(1,1)
@@ -71,13 +71,10 @@ void LevelingMenu::onRedraw(draw_mode_t what) {
     cmd.font(font_large)
        .text(TITLE_POS, GET_TEXT_F(MSG_LEVELING))
        .font(font_medium).colors(normal_btn)
-       .tag(2).button(LEVEL_BED_POS, GET_TEXT_F(MSG_LEVEL_BED))
-       .enabled(
-         #ifdef AXIS_LEVELING_COMMANDS
-           1
-         #endif
-        )
-       .tag(3).button(LEVEL_AXIS_POS, GET_TEXT_F(MSG_AUTOLEVEL_X_AXIS))
+    #if EITHER(Z_STEPPER_AUTO_ALIGN,MECHANICAL_GANTRY_CALIBRATION)
+       .tag(2).button(LEVEL_AXIS_POS, GET_TEXT_F(MSG_AUTOLEVEL_X_AXIS))
+    #endif
+       .tag(3).button(LEVEL_BED_POS, GET_TEXT_F(MSG_LEVEL_BED))
        .enabled(ENABLED(HAS_MESH))
        .tag(4).button(SHOW_MESH_POS, GET_TEXT_F(MSG_SHOW_MESH));
     #if ENABLED(BLTOUCH)
@@ -93,7 +90,10 @@ void LevelingMenu::onRedraw(draw_mode_t what) {
 bool LevelingMenu::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 1: GOTO_PREVIOUS();                   break;
-    case 2:
+    #if EITHER(Z_STEPPER_AUTO_ALIGN,MECHANICAL_GANTRY_CALIBRATION)
+    case 2: SpinnerDialogBox::enqueueAndWait_P(F("G34")); break;
+    #endif
+    case 3:
     #ifndef BED_LEVELING_COMMANDS
       #define BED_LEVELING_COMMANDS "G29"
     #endif
@@ -103,9 +103,6 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
       SpinnerDialogBox::enqueueAndWait_P(F(BED_LEVELING_COMMANDS));
     #endif
     break;
-    #ifdef AXIS_LEVELING_COMMANDS
-    case 3: SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS)); break;
-    #endif
     #if HAS_MESH
     case 4: GOTO_SCREEN(BedMeshScreen); break;
     #endif
