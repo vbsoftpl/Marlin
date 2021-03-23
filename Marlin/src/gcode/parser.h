@@ -85,13 +85,13 @@ public:
               *string_arg,                // string of command line
               command_letter;             // G, M, or T
   static uint16_t codenum;                // 123
-  #if ENABLED(USE_GCODE_SUBCODES)
+  #if USE_GCODE_SUBCODES
     static uint8_t subcode;               // .1
   #endif
 
   #if ENABLED(GCODE_MOTION_MODES)
     static int16_t motion_mode_codenum;
-    #if ENABLED(USE_GCODE_SUBCODES)
+    #if USE_GCODE_SUBCODES
       static uint8_t motion_mode_subcode;
     #endif
     FORCE_INLINE static void cancel_motion_mode() { motion_mode_codenum = -1; }
@@ -390,14 +390,12 @@ public:
       }
     }
 
-    #define TEMP_UNIT(N) parser.to_temp_units(N)
-
   #else // !TEMPERATURE_UNITS_SUPPORT
+
+    static inline float to_temp_units(int16_t c) { return (float)c; }
 
     static inline float value_celsius()      { return value_float(); }
     static inline float value_celsius_diff() { return value_float(); }
-
-    #define TEMP_UNIT(N) (N)
 
   #endif // !TEMPERATURE_UNITS_SUPPORT
 
